@@ -287,7 +287,7 @@ const PdfFicha = ({ fichaData }) => {
   }, [])
 
   if (!isClient) {
-    return <div>Cargando generador de PDF...</div>
+    return <div>Cargando...</div>
   }
 
   return (
@@ -309,7 +309,7 @@ const PdfFicha = ({ fichaData }) => {
           boxShadow: "0 4px 6px rgba(156, 39, 176, 0.2)",
         }}
       >
-        {({ blob, url, loading, error }) => (loading ? "Generando PDF..." : "Descargar Ficha como PDF")}
+        {({ blob, url, loading, error }) => (loading ? "Generando.." : "Descargar Ficha")}
       </PDFDownloadLink>
     </div>
   )

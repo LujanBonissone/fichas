@@ -215,6 +215,7 @@ const FichaCosmetologia = () => {
     email: "",
     domicilio: "",
     fechaHoy: new Date().toISOString().split("T")[0],
+    sexo: "",
   })
 
   // Estado para antecedentes personales
@@ -464,6 +465,33 @@ const FichaCosmetologia = () => {
               onChange={handleDatosClienteChange}
             />
           </label>
+          
+          <label style={styles.label}>
+            Sexo
+            <div style={{ ...styles.flex, ...styles.gap2 }}>
+              <label style={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="sexo"
+                  value="femenino"
+                  checked={datosCliente.sexo === "femenino"}
+                  onChange={handleDatosClienteChange}
+                />
+                F
+              </label>
+              <label style={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="sexo"
+                  value="masculino"
+                  checked={datosCliente.sexo === "masculino"}
+                  onChange={handleDatosClienteChange}
+                />
+                M
+              </label>
+            </div>
+          </label>
+
         </div>
 
         <h2 style={styles.tituloSeccion}>ANTECEDENTES PERSONALES</h2>
@@ -530,7 +558,7 @@ const FichaCosmetologia = () => {
             />
           </label>
           <label style={styles.label}>
-            Realiza controles médicos periódicos
+            ¿Realiza controles médicos periódicos?
             <input
               type="text"
               style={styles.input}
@@ -742,7 +770,7 @@ const FichaCosmetologia = () => {
             {isLoading ? "Guardando..." : "Guardar Ficha"}
           </button>
           <button type="button" style={styles.botonPdf} onClick={handleGenerarPdf}>
-            Generar PDF sin guardar
+            Descargar
           </button>
         </div>
       </form>
