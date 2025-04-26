@@ -1,0 +1,291 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Estilos para la ficha de cosmetología */
+.ficha {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.titulo-seccion {
+  color: #9c27b0;
+  background-color: #f9f0fc;
+  border-bottom: 2px solid #e1bee7;
+  padding-bottom: 0.5rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.grid-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.grid-datos label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: -0.2rem;
+}
+
+.input {
+  margin-top: 0.2rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #9c27b0;
+  box-shadow: 0 0 0 2px rgba(156, 39, 176, 0.2);
+}
+
+/* Modificar el estilo de los grupos de checkbox para que estén en línea */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  justify-content: flex-start;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #555;
+  cursor: pointer;
+  margin-right: 1rem;
+  white-space: nowrap;
+}
+
+/* Para secciones específicas que necesitan estar en una sola línea */
+.checkbox-group.inline-only {
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Permite desplazamiento horizontal si no caben todos */
+  padding-bottom: 0.5rem; /* Espacio para la barra de desplazamiento */
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #9c27b0;
+  box-shadow: 0 0 0 2px rgba(156, 39, 176, 0.2);
+}
+
+.firmas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.firma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.firma hr {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #999;
+  margin-bottom: 0.5rem;
+}
+
+.firma span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .ficha {
+    padding: 1.5rem;
+  }
+
+  .grid-datos {
+    grid-template-columns: 1fr;
+  }
+
+  .firmas {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Añadir un encabezado atractivo */
+.ficha::before {
+  content: "Ficha de Cosmetología";
+  display: block;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #9c27b0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px double #e1bee7;
+}
+
+/* Estilos para el consentimiento */
+.consent {
+  margin: 1rem 0;
+  padding: 0.7rem;
+  background-color: #f9f0fc;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+.consent-input {
+  width: 200px;
+  border: none;
+  border-bottom: 1px solid #9c27b0;
+  background-color: transparent;
+  padding: 0.2rem;
+  margin: 0 0.5rem;
+  font-style: italic;
+}
+
+/* Estilos para el botón de guardar */
+.boton-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.boton-guardar {
+  background-color: #9c27b0;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 0.8rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 6px rgba(156, 39, 176, 0.2);
+}
+
+.boton-guardar:hover {
+  background-color: #7b1fa2;
+  transform: translateY(-2px);
+}
+
+.boton-guardar:active {
+  transform: translateY(0);
+}
+
+.boton-guardar:disabled {
+  background-color: #d1c4e9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Estilos para mensajes de éxito/error */
+.mensaje {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.mensaje.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.mensaje.error {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
+/* Estilo específico para el fototipo */
+.fototipo-group {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  margin-bottom: 0.8rem;
+  justify-content: space-between;
+  max-width: 600px; /* Ajusta según necesites */
+}
+
+.fototipo-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap;
+}
