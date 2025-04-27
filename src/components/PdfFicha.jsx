@@ -1,20 +1,29 @@
-"use client"
 
-import React, { useState } from "react"
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from "@react-pdf/renderer"
 
-// Estilos para el PDF
+import React, { useState } from "react";
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Image } from "@react-pdf/renderer";
+
 const styles = StyleSheet.create({
   page: {
     padding: 30,
     fontFamily: "Helvetica",
     fontSize: 10,
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  logo: {
+    width: 100,
+    height: 50,
+  },
   title: {
     fontSize: 16,
     marginBottom: 10,
     textAlign: "center",
     fontWeight: "bold",
+    color: "#9c27b0",
   },
   subtitle: {
     fontSize: 12,
@@ -86,15 +95,14 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     textAlign: "center",
   },
-})
+});
 
-// Componente para mostrar checkboxes
 const CheckboxField = ({ label, checked }) => (
   <View style={styles.checkboxItem}>
     <View style={checked ? styles.checkedBox : styles.checkbox} />
     <Text>{label}</Text>
   </View>
-)
+);
 
 // Componente del documento PDF
 const FichaPDF = ({ data }) => (
@@ -277,42 +285,48 @@ const FichaPDF = ({ data }) => (
   </Document>
 )
 
-// Componente principal que muestra el botón de descarga
 const PdfFicha = ({ fichaData }) => {
-  const [isClient, setIsClient] = useState(false)
+  const [isClient, setIsClient] = useState(false);
 
-  // Asegurarse de que el componente solo se renderice en el cliente
   React.useEffect(() => {
-    setIsClient(true)
-  }, [])
+    setIsClient(true);
+  }, []);
 
   if (!isClient) {
-    return <div>Cargando...</div>
+    return <div>Cargando...</div>;
   }
 
   return (
-    <div className="pdf-download-container">
-      <PDFDownloadLink
-        document={<FichaPDF data={fichaData} />}
-        fileName={`ficha-cosmetologia-${fichaData.datosCliente.nombreCompleto.replace(/\s+/g, "-")}.pdf`}
-        style={{
-          textDecoration: "none",
-          padding: "10px 20px",
-          color: "#fff",
-          backgroundColor: "#9c27b0",
-          borderRadius: "30px",
-          cursor: "pointer",
-          display: "inline-block",
-          marginTop: "20px",
-          marginBottom: "20px",
-          fontWeight: "bold",
-          boxShadow: "0 4px 6px rgba(156, 39, 176, 0.2)",
-        }}
-      >
-        {({ blob, url, loading, error }) => (loading ? "Generando.." : "Descargar Ficha")}
-      </PDFDownloadLink>
-    </div>
-  )
-}
+    <PDFDownloadLink
+      document={<FichaPDF data={fichaData} />}
+      fileName={`ficha-cosmetologia-${fichaData.datosCliente.nombreCompleto.replace(/\s+/g, "-")}.pdf`}
+      style={{
+        textDecoration: "none",
+        padding: "10px 20px",
+        color: "#fff",
+        backgroundColor: "#2196F3",
+        borderRadius: "30px",
+        cursor: "pointer",
+        display: "inline-block",
+        marginTop: "20px",
+        marginBottom: "20px",
+        fontWeight: "bold",
+        boxShadow: "0 4px 6px rgba(33, 150, 243, 0.2)",
+      }}
+    >
+      {({ blob, url, loading, error }) =>
+        loading ? "Generando PDF..." : "Descargar Ficha en PDF"
+      }
+    </PDFDownloadLink>
+  );
+};
 
-export default PdfFicha
+export default PdfFicha;
+
+
+
+
+
+
+
+

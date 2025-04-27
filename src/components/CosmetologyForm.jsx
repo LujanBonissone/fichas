@@ -648,6 +648,31 @@ const FichaCosmetologia = () => {
               </label>
             </div>
           </label>
+          <label style={styles.label}>
+            ¿Esta en su ciclo menstrual?
+            <div style={{ ...styles.flex, ...styles.gap2 }}>
+              <label style={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="ciclo"
+                  value="sí"
+                  checked={antecedentesGinecologicos.ciclo === "sí"}
+                  onChange={handleAntecedentesGinecologicosChange}
+                />
+                Sí
+              </label>
+              <label style={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="ciclo"
+                  value="no"
+                  checked={antecedentesGinecologicos.ciclo === "no"}
+                  onChange={handleAntecedentesGinecologicosChange}
+                />
+                No
+              </label>
+            </div>
+          </label>
         </div>
 
         <h2 style={styles.tituloSeccion}>FOTOTIPO SEGÚN FITZPATRICK</h2>

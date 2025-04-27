@@ -1,22 +1,19 @@
-import { initializeApp } from "firebase/app"
-import { getFirestore, collection, addDoc } from "firebase/firestore"
-import { getAnalytics } from "firebase/analytics"
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyAngH_5g79dJ89jnUKnVpTxOwcNSmD8tsc",
   authDomain: "ficha-5dada.firebaseapp.com",
   projectId: "ficha-5dada",
-  storageBucket: "ficha-5dada.firebasestorage.app",
+  storageBucket: "ficha-5dada.appspot.com",
   messagingSenderId: "970164715726",
-  appId: "1:970164715726:web:9780925080fe27dc2c109f",
-  measurementId: "G-1MC3P9465F",
-}
+  appId: "1:970164715726:web:9780925080fe27dc2c109f"
+};
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const analytics = typeof window !== "undefined" ? getAnalytics(app) : null
-const db = getFirestore(app)
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// Export the Firebase services and functions
-export { db, collection, addDoc }
+export { auth, db };
