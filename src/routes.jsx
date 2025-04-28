@@ -1,4 +1,4 @@
-// src/routes.jsx
+//routes.jsx
 import { createBrowserRouter } from "react-router-dom";
 import CosmetologyForm from "./components/CosmetologyForm";
 import Layout from "./components/Layout";

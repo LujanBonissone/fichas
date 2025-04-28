@@ -2,27 +2,8 @@
 
 import { useState } from "react"
 import PdfFicha from "./PdfFicha"
-
-// Importaciones de Firebase
-import { initializeApp } from "firebase/app"
-import { getFirestore, collection, addDoc } from "firebase/firestore"
-import { getAnalytics } from "firebase/analytics"
-
-// Configuración de Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyAngH_5g79dJ89jnUKnVpTxOwcNSmD8tsc",
-  authDomain: "ficha-5dada.firebaseapp.com",
-  projectId: "ficha-5dada",
-  storageBucket: "ficha-5dada.firebasestorage.app",
-  messagingSenderId: "970164715726",
-  appId: "1:970164715726:web:9780925080fe27dc2c109f",
-  measurementId: "G-1MC3P9465F",
-}
-
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig)
-const analytics = typeof window !== "undefined" ? getAnalytics(app) : null
-const db = getFirestore(app)
+import { db } from "../firebase-config"
+import { collection, addDoc } from "firebase/firestore"
 
 // Estilos CSS en línea para evitar dependencias externas
 const styles = {
@@ -201,7 +182,7 @@ const styles = {
   },
 }
 
-const FichaCosmetologia = () => {
+const CosmetologyForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState({ text: "", type: "" })
   const [fichaGuardada, setFichaGuardada] = useState(null)
@@ -234,6 +215,7 @@ const FichaCosmetologia = () => {
     embarazo: "",
     menopausia: "",
     cicloMenstrual: "",
+    ciclo: "",
   })
 
   // Estado para checkboxes
@@ -465,7 +447,7 @@ const FichaCosmetologia = () => {
               onChange={handleDatosClienteChange}
             />
           </label>
-          
+
           <label style={styles.label}>
             Sexo
             <div style={{ ...styles.flex, ...styles.gap2 }}>
@@ -491,7 +473,6 @@ const FichaCosmetologia = () => {
               </label>
             </div>
           </label>
-
         </div>
 
         <h2 style={styles.tituloSeccion}>ANTECEDENTES PERSONALES</h2>
@@ -794,16 +775,14 @@ const FichaCosmetologia = () => {
           <button type="submit" style={styles.botonGuardar} disabled={isLoading}>
             {isLoading ? "Guardando..." : "Guardar Ficha"}
           </button>
-          <button type="button" style={styles.botonPdf} onClick={handleGenerarPdf}>
-            Descargar
-          </button>
+          
         </div>
       </form>
 
       {fichaGuardada && (
         <div style={styles.pdfSection}>
           <h2 style={styles.tituloSeccion}>DESCARGAR FICHA</h2>
-          
+
           <PdfFicha fichaData={fichaGuardada} />
         </div>
       )}
@@ -811,4 +790,4 @@ const FichaCosmetologia = () => {
   )
 }
 
-export default FichaCosmetologia
+export default CosmetologyForm

@@ -1,33 +1,34 @@
-import { useState, useEffect } from "react";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+"use client"
+
+import { useState, useEffect } from "react"
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
+import { signOut } from "firebase/auth"
+import { db, auth } from "../firebase-config"
 
 const Layout = ({ children }) => {
-  const [fichas, setFichas] = useState([]);
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [fichas, setFichas] = useState([])
+  const [menuOpen, setMenuOpen] = useState(true)
 
   useEffect(() => {
-    const q = query(collection(db, "fichasCosmetologia"), orderBy("fechaCreacion", "desc"));
+    const q = query(collection(db, "fichasCosmetologia"), orderBy("fechaCreacion", "desc"))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const fichasData = [];
+      const fichasData = []
       querySnapshot.forEach((doc) => {
-        fichasData.push({ id: doc.id, ...doc.data() });
-      });
-      setFichas(fichasData);
-    });
+        fichasData.push({ id: doc.id, ...doc.data() })
+      })
+      setFichas(fichasData)
+    })
 
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe()
+  }, [])
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await signOut(auth)
     } catch (error) {
-      console.error("Error al cerrar sesión:", error);
+      console.error("Error al cerrar sesión:", error)
     }
-  };
+  }
 
   return (
     <div className="app-layout">
@@ -35,29 +36,22 @@ const Layout = ({ children }) => {
       <aside className={`sidebar ${menuOpen ? "open" : "closed"}`}>
         <div className="sidebar-header">
           {menuOpen ? (
-            <>
-              <img 
-                src="logo.png" 
-                alt="Logo" 
-                className="sidebar-logo" 
-              />
-              <h2 className="sidebar-title">Sistema de Fichas</h2>
-            </>
+            
+            <img 
+              src="logo.png" 
+              alt="Logo" 
+              className="sidebar-logo" 
+            />
+
           ) : (
-            <div 
-              className="sidebar-toggle-icon" 
-              onClick={() => setMenuOpen(true)}
-            >
+            <div className="sidebar-toggle-icon" onClick={() => setMenuOpen(true)}>
               ☰
             </div>
           )}
         </div>
 
-        <button
-          className="sidebar-toggle-btn"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? "◄ Ocultar" : "►"}
+        <button className="sidebar-toggle-btn" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? "◄ " : ""}
         </button>
 
         {menuOpen && (
@@ -70,35 +64,26 @@ const Layout = ({ children }) => {
                   className="ficha-item"
                   onClick={() => {
                     // Aquí puedes implementar la visualización de la ficha seleccionada
-                    console.log("Ficha seleccionada:", ficha.id);
+                    console.log("Ficha seleccionada:", ficha.id)
                   }}
                 >
-                  <span className="ficha-nombre">
-                    {ficha.datosCliente.nombreCompleto || "Sin nombre"}
-                  </span>
-                  <span className="ficha-fecha">
-                    {ficha.fechaCreacion?.toDate().toLocaleDateString()}
-                  </span>
+                  <span className="ficha-nombre">{ficha.datosCliente?.nombreCompleto || "Sin nombre"}</span>
+                  <span className="ficha-fecha">{ficha.fechaCreacion?.toDate().toLocaleDateString()}</span>
                 </li>
               ))}
             </ul>
           </div>
         )}
 
-        <button
-          className="logout-btn"
-          onClick={handleLogout}
-        >
+        <button className="logout-btn" onClick={handleLogout}>
           Cerrar Sesión
         </button>
       </aside>
 
       {/* Contenido principal */}
-      <main className="main-content">
-        {children}
-      </main>
+      <main className="main-content">{children}</main>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

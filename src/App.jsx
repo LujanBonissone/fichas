@@ -1,46 +1,42 @@
-import { useState, useEffect } from "react";
-import { auth } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import Login from "./Login";
-import Layout from "./components/Layout";
-import CosmetologyForm from "./components/CosmetologyForm";
+"use client"
+
+import { useState, useEffect } from "react"
+import { auth } from "./firebase-config"
+import { onAuthStateChanged } from "firebase/auth"
+import "./App.css"
+import Login from "./Login"
+import CosmetologyForm from "./components/CosmetologyForm"
+import Layout from "./components/Layout"
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+      setLoading(false)
+    })
+    return () => unsubscribe()
+  }, [])
 
   if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh'
-      }}>
-        <p>Cargando aplicación...</p>
-      </div>
-    );
+    return <div className="loading">Cargando...</div>
   }
 
   return (
-    <div className="app">
-      {!user ? (
-        <Login />
-      ) : (
+    <>
+      {user ? (
         <Layout>
           <CosmetologyForm />
         </Layout>
+      ) : (
+        <div className="pagina-login">
+          <Login />
+        </div>
       )}
-    </div>
-  );
+    </>
+  )
 }
 
-export default App;
+export default App

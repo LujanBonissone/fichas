@@ -1,7 +1,7 @@
+"use client"
 
-
-import React, { useState } from "react";
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Image } from "@react-pdf/renderer";
+import React, { useState } from "react"
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from "@react-pdf/renderer"
 
 const styles = StyleSheet.create({
   page: {
@@ -95,14 +95,14 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     textAlign: "center",
   },
-});
+})
 
 const CheckboxField = ({ label, checked }) => (
   <View style={styles.checkboxItem}>
     <View style={checked ? styles.checkedBox : styles.checkbox} />
     <Text>{label}</Text>
   </View>
-);
+)
 
 // Componente del documento PDF
 const FichaPDF = ({ data }) => (
@@ -141,6 +141,13 @@ const FichaPDF = ({ data }) => (
             <Text style={styles.value}>{data.datosCliente.domicilio}</Text>
           </View>
         </View>
+        <View style={styles.column}>
+          <View style={styles.row}>
+            <Text style={styles.label}>Sexo</Text>
+            <Text style={styles.value}>{data.datosCliente.sexo}</Text>
+          </View>
+        </View>
+
       </View>
 
       {/* ANTECEDENTES PERSONALES */}
@@ -201,6 +208,12 @@ const FichaPDF = ({ data }) => (
             <Text style={styles.value}>{data.antecedentesGinecologicos.cicloMenstrual}</Text>
           </View>
         </View>
+        <View style={styles.column}>
+          <View style={styles.row}>
+            <Text style={styles.label}>¿Esta en su ciclo menstrual?</Text>
+            <Text style={styles.value}>{data.antecedentesGinecologicos.ciclo}</Text>
+          </View>
+        </View>
       </View>
 
       {/* FOTOTIPO */}
@@ -242,6 +255,8 @@ const FichaPDF = ({ data }) => (
           <CheckboxField key={key} label={key} checked={value} />
         ))}
       </View>
+
+      <p></p>
 
       {/* TRATAMIENTO REALIZADO */}
       <Text style={styles.subtitle}>TRATAMIENTO REALIZADO</Text>
@@ -286,20 +301,20 @@ const FichaPDF = ({ data }) => (
 )
 
 const PdfFicha = ({ fichaData }) => {
-  const [isClient, setIsClient] = useState(false);
+  const [isClient, setIsClient] = useState(false)
 
   React.useEffect(() => {
-    setIsClient(true);
-  }, []);
+    setIsClient(true)
+  }, [])
 
   if (!isClient) {
-    return <div>Cargando...</div>;
+    return <div>Cargando...</div>
   }
 
   return (
     <PDFDownloadLink
       document={<FichaPDF data={fichaData} />}
-      fileName={`ficha-cosmetologia-${fichaData.datosCliente.nombreCompleto.replace(/\s+/g, "-")}.pdf`}
+      fileName={`ficha-cosmetologia-${fichaData.datosCliente.nombreCompleto.replace(/\s+/g, "-") || "sin-nombre"}.pdf`}
       style={{
         textDecoration: "none",
         padding: "10px 20px",
@@ -314,19 +329,9 @@ const PdfFicha = ({ fichaData }) => {
         boxShadow: "0 4px 6px rgba(33, 150, 243, 0.2)",
       }}
     >
-      {({ blob, url, loading, error }) =>
-        loading ? "Generando PDF..." : "Descargar Ficha en PDF"
-      }
+      {({ blob, url, loading, error }) => (loading ? "Generando..." : "Descargar Ficha en PDF")}
     </PDFDownloadLink>
-  );
-};
+  )
+}
 
-export default PdfFicha;
-
-
-
-
-
-
-
-
+export default PdfFicha
