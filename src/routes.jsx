@@ -1,23 +1,27 @@
-//routes.jsx
-import { createBrowserRouter } from "react-router-dom";
-import CosmetologyForm from "./components/CosmetologyForm";
-import Layout from "./components/Layout";
-import Login from "./Login";
+import { createBrowserRouter } from "react-router-dom"
+import App from "./App"
+import CosmetologyForm from "./components/CosmetologyForm"
+import FichasList from "./components/FichasList"
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login/>,
-    
+    element: <App />,
     children: [
       {
         path: "/",
-        element: <CosmetologyForm />,
+        element: <FichasList />,
       },
       {
-        path: "/",
-        element: <Layout />,
-      }
+        path: "/fichas",
+        element: <FichasList />,
+      },
+      {
+        path: "/registrar",
+        element: <CosmetologyForm />,
+      },
     ],
   },
-]);
+])
+
+export default router

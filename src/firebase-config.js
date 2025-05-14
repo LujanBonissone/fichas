@@ -13,7 +13,12 @@ const firebaseConfig = {
   measurementId: "G-1MC3P9465F",
 }
 
+// Inicializar Firebase
+console.log("Inicializando Firebase...")
 const app = initializeApp(firebaseConfig)
+
+// Inicializar servicios
+console.log("Inicializando servicios de Firebase...")
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 
@@ -27,3 +32,6 @@ export const initializeAnalytics = async () => {
   }
   return null
 }
+
+// Verificar conexión a Firestore
+console.log("Firebase inicializado. Firestore disponible:", !!db)

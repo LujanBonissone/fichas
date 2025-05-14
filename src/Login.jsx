@@ -23,11 +23,7 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-      <img 
-              src="logo.png" 
-              alt="Logo" 
-              className="sidebar-logo" 
-            />
+        <img src="/logo.png" alt="Logo" className="sidebar-logo" />
         <h1>Iniciar Sesión</h1>
         <form onSubmit={handleSubmit}>
           <input
