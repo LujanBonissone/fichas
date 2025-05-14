@@ -2,27 +2,8 @@
 
 import { useState } from "react"
 import PdfFicha from "./PdfFicha"
-
-// Importaciones de Firebase
-import { initializeApp } from "firebase/app"
-import { getFirestore, collection, addDoc } from "firebase/firestore"
-import { getAnalytics } from "firebase/analytics"
-
-// Configuración de Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyAngH_5g79dJ89jnUKnVpTxOwcNSmD8tsc",
-  authDomain: "ficha-5dada.firebaseapp.com",
-  projectId: "ficha-5dada",
-  storageBucket: "ficha-5dada.firebasestorage.app",
-  messagingSenderId: "970164715726",
-  appId: "1:970164715726:web:9780925080fe27dc2c109f",
-  measurementId: "G-1MC3P9465F",
-}
-
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig)
-const analytics = typeof window !== "undefined" ? getAnalytics(app) : null
-const db = getFirestore(app)
+import { db } from "../firebase-config"
+import { collection, addDoc } from "firebase/firestore"
 
 // Estilos CSS en línea para evitar dependencias externas
 const styles = {
@@ -201,7 +182,7 @@ const styles = {
   },
 }
 
-const FichaCosmetologia = () => {
+const CosmetologyForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState({ text: "", type: "" })
   const [fichaGuardada, setFichaGuardada] = useState(null)
@@ -215,6 +196,7 @@ const FichaCosmetologia = () => {
     email: "",
     domicilio: "",
     fechaHoy: new Date().toISOString().split("T")[0],
+    sexo: "",
   })
 
   // Estado para antecedentes personales
@@ -233,6 +215,7 @@ const FichaCosmetologia = () => {
     embarazo: "",
     menopausia: "",
     cicloMenstrual: "",
+    ciclo: "",
   })
 
   // Estado para checkboxes
@@ -377,7 +360,7 @@ const FichaCosmetologia = () => {
   return (
     <div>
       <form style={styles.ficha} onSubmit={handleSubmit}>
-        <div style={styles.fichaTitle}>Ficha de Cosmetología</div>
+        <div style={styles.fichaTitle}>Ficha Cliente</div>
 
         {message.text && (
           <div
@@ -464,6 +447,32 @@ const FichaCosmetologia = () => {
               onChange={handleDatosClienteChange}
             />
           </label>
+
+          <label style={styles.label}>
+            Sexo
+            <div style={{ ...styles.flex, ...styles.gap2 }}>
+              <label style={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="sexo"
+                  value="femenino"
+                  checked={datosCliente.sexo === "femenino"}
+                  onChange={handleDatosClienteChange}
+                />
+                F
+              </label>
+              <label style={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="sexo"
+                  value="masculino"
+                  checked={datosCliente.sexo === "masculino"}
+                  onChange={handleDatosClienteChange}
+                />
+                M
+              </label>
+            </div>
+          </label>
         </div>
 
         <h2 style={styles.tituloSeccion}>ANTECEDENTES PERSONALES</h2>
@@ -530,7 +539,7 @@ const FichaCosmetologia = () => {
             />
           </label>
           <label style={styles.label}>
-            Realiza controles médicos periódicos
+            ¿Realiza controles médicos periódicos?
             <input
               type="text"
               style={styles.input}
@@ -540,88 +549,115 @@ const FichaCosmetologia = () => {
             />
           </label>
         </div>
+        {datosCliente.sexo !== "masculino" && (
+         <>
+              <h2 style={styles.tituloSeccion}>ANTECEDENTES GINECOLÓGICOS</h2>
+              <div style={styles.gridDatos}>
+                <label style={styles.label}>
+                  ¿Está embarazada?
+                  <div style={{ ...styles.flex, ...styles.gap2 }}>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="embarazo"
+                        value="sí"
+                        checked={antecedentesGinecologicos.embarazo === "sí"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      Sí
+                    </label>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="embarazo"
+                        value="no"
+                        checked={antecedentesGinecologicos.embarazo === "no"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      No
+                    </label>
+                  </div>
+                </label>
 
-        <h2 style={styles.tituloSeccion}>ANTECEDENTES GINECOLÓGICOS</h2>
-        <div style={styles.gridDatos}>
-          <label style={styles.label}>
-            ¿Está embarazada?
-            <div style={{ ...styles.flex, ...styles.gap2 }}>
-              <label style={styles.checkboxLabel}>
-                <input
-                  type="radio"
-                  name="embarazo"
-                  value="sí"
-                  checked={antecedentesGinecologicos.embarazo === "sí"}
-                  onChange={handleAntecedentesGinecologicosChange}
-                />
-                Sí
-              </label>
-              <label style={styles.checkboxLabel}>
-                <input
-                  type="radio"
-                  name="embarazo"
-                  value="no"
-                  checked={antecedentesGinecologicos.embarazo === "no"}
-                  onChange={handleAntecedentesGinecologicosChange}
-                />
-                No
-              </label>
-            </div>
-          </label>
+                <label style={styles.label}>
+                  Menopausia
+                  <div style={{ ...styles.flex, ...styles.gap2 }}>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="menopausia"
+                        value="sí"
+                        checked={antecedentesGinecologicos.menopausia === "sí"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      Sí
+                    </label>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="menopausia"
+                        value="no"
+                        checked={antecedentesGinecologicos.menopausia === "no"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      No
+                    </label>
+                  </div>
+                </label>
 
-          <label style={styles.label}>
-            Menopausia
-            <div style={{ ...styles.flex, ...styles.gap2 }}>
-              <label style={styles.checkboxLabel}>
-                <input
-                  type="radio"
-                  name="menopausia"
-                  value="sí"
-                  checked={antecedentesGinecologicos.menopausia === "sí"}
-                  onChange={handleAntecedentesGinecologicosChange}
-                />
-                Sí
-              </label>
-              <label style={styles.checkboxLabel}>
-                <input
-                  type="radio"
-                  name="menopausia"
-                  value="no"
-                  checked={antecedentesGinecologicos.menopausia === "no"}
-                  onChange={handleAntecedentesGinecologicosChange}
-                />
-                No
-              </label>
-            </div>
-          </label>
-
-          <label style={styles.label}>
-            ¿Ciclo menstrual regular?
-            <div style={{ ...styles.flex, ...styles.gap2 }}>
-              <label style={styles.checkboxLabel}>
-                <input
-                  type="radio"
-                  name="cicloMenstrual"
-                  value="sí"
-                  checked={antecedentesGinecologicos.cicloMenstrual === "sí"}
-                  onChange={handleAntecedentesGinecologicosChange}
-                />
-                Sí
-              </label>
-              <label style={styles.checkboxLabel}>
-                <input
-                  type="radio"
-                  name="cicloMenstrual"
-                  value="no"
-                  checked={antecedentesGinecologicos.cicloMenstrual === "no"}
-                  onChange={handleAntecedentesGinecologicosChange}
-                />
-                No
-              </label>
-            </div>
-          </label>
-        </div>
-
+                <label style={styles.label}>
+                  ¿Ciclo menstrual regular?
+                  <div style={{ ...styles.flex, ...styles.gap2 }}>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="cicloMenstrual"
+                        value="sí"
+                        checked={antecedentesGinecologicos.cicloMenstrual === "sí"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      Sí
+                    </label>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="cicloMenstrual"
+                        value="no"
+                        checked={antecedentesGinecologicos.cicloMenstrual === "no"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      No
+                    </label>
+                  </div>
+                </label>
+                <label style={styles.label}>
+                  ¿Esta en su ciclo menstrual?
+                  <div style={{ ...styles.flex, ...styles.gap2 }}>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="ciclo"
+                        value="sí"
+                        checked={antecedentesGinecologicos.ciclo === "sí"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      Sí
+                    </label>
+                    <label style={styles.checkboxLabel}>
+                      <input
+                        type="radio"
+                        name="ciclo"
+                        value="no"
+                        checked={antecedentesGinecologicos.ciclo === "no"}
+                        onChange={handleAntecedentesGinecologicosChange}
+                      />
+                      No
+                    </label>
+                  </div>
+                </label>
+              </div>
+         </>
+        )}
         <h2 style={styles.tituloSeccion}>FOTOTIPO SEGÚN FITZPATRICK</h2>
         <div style={styles.checkboxGroup}>
           {Object.keys(fototipo).map((tipo) => (
@@ -741,16 +777,14 @@ const FichaCosmetologia = () => {
           <button type="submit" style={styles.botonGuardar} disabled={isLoading}>
             {isLoading ? "Guardando..." : "Guardar Ficha"}
           </button>
-          <button type="button" style={styles.botonPdf} onClick={handleGenerarPdf}>
-            Generar PDF sin guardar
-          </button>
+          
         </div>
       </form>
 
       {fichaGuardada && (
         <div style={styles.pdfSection}>
           <h2 style={styles.tituloSeccion}>DESCARGAR FICHA</h2>
-          
+
           <PdfFicha fichaData={fichaGuardada} />
         </div>
       )}
@@ -758,4 +792,4 @@ const FichaCosmetologia = () => {
   )
 }
 
-export default FichaCosmetologia
+export default CosmetologyForm
